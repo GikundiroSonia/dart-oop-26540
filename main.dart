@@ -47,8 +47,56 @@ class BusCard {
     if (fare > _balance) {
       print('Card declined');
     } else {
-      _balance = _balance - fare;
+      _balance = _balance - fare;}
+    class StudentCard extends BusCard {
+  int _discount = 0;
+
+  StudentCard(String owner, int balance, int discount)
+      : super(owner, balance) {
+    _discount = discount;
+  }
+
+  @override
+  void showInfo() {
+    super.showInfo();
+    print('Student card: $_discount% off');
+  }
+
+  @override
+  void pay(int fare) {
+    int off = fare * _discount ~/ 100;
+    print('Student discount: $off RWF');
+    super.pay(fare - off);
+  }
+}
       print('Paid $fare RWF');
     }
   }
+void main() {
+  // My numbers: D = 40, L = 0
+  // Starting balance = 1400 RWF
+  // Bus fare = 240 RWF
+  // Student discount = 10%
+
+  BusCard card = BusCard('Sonia Gikundiro', 1400);
+
+  card.owner = 'Al';
+  card.showInfo();
+
+  card.owner = 'Sonia Gikundiro';
+  card.showInfo();
+
+  card.topUp(100);
+  card.topUp(2000);
+
+  card.pay(240);
+  card.pay(240);
+  card.showInfo();
+
+  StudentCard student =
+      StudentCard('Sonia Gikundiro', 1400, 10);
+
+  student.pay(240);
+  student.showInfo();
+}
 }
